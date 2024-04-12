@@ -1,0 +1,75 @@
+
+#******************** Settings ************************
+
+*** Settings ***
+
+Documentation	Testing the project functionality. CRUD Operation: Create, Read, Update, Delete
+
+Pre Condition	Logged User In GitLab 
+Post Condition	Logged Out User In GitLab 
+Tags 	Project, TS-1-Project
+
+#******************* Common Variables ********************
+
+*** Variables ***
+
+# NOTE: Please Remove your login credential before uploading Assignments
+
+New_Blank_ProjectUrl = https://gitlab.com/projects/new#blank_project
+New_Template_ProjectUrl = https://gitlab.com/projects/new#create_from_template
+Username =	Asier
+Project_Name = Fundamentals Of Software Testing Project
+New_Project_Name =	FOST Project
+Project_Slug = fost-project
+ProjectUrl = https://gitlab.com/Username/ProjectSlug
+Project_Visibility = Private
+Template = Spring
+
+#******************** Test Cases *************************
+
+*** Test Case ***
+
+# Positive Test
+
+Create Blank Project
+	Navigate To New Blank Project Page New_Blank_ProjectUrl
+	Input Project Name Project_Name
+	Input Project Slug Project_Slug
+	Select Project Visibility Project_Visibility
+	Submit Project Creation Form
+	Verify Page Should Contain Project 'Project_Name' was successfully created.
+
+Create Template Project
+	Navigate To New Template Project Page New_Template_ProjectUrl
+	Select Template Template
+	Input Project Name Project_Name
+	Input Project Slug Project_Slug
+	Input Project Visibility Project_Visibility
+	Submit Project Creation Form
+	Verify Page Should Contain the project was successfully imported.
+
+Update Name Of Template Project
+	Navigate To ProjectUrl
+	Select Project Settings
+	Input New Project Name New_Project_Name
+	Submit Save Changes
+	Verify Page Should Contain Project 'New_Project_Name' was successfully updated.
+
+Delete Template Project
+	Navigate To ProjectUrl
+	Select Project Settings
+	Expand Advanced Options
+	Click Delete Project
+	Input Project Name Username/Project_Name
+	Click Yes, Delete Project
+	Verify Page Should Contain Project 'Username/Project_Name' is in the process of being deleted.
+
+# Negative Test
+
+Create a Blank Project with the previous same name
+	Navigate To New Blank Project Page New_Blank_ProjectUrl
+	Input Project Name Project_Name
+	Input Project Slug Project_Slug
+	Select Project Visibility Project_Visibility
+	Submit Project Creation Form
+	Verify Page Should Contain Name has already been taken

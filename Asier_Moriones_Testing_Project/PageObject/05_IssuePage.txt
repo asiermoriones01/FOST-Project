@@ -1,0 +1,60 @@
+
+#******************** Settings ************************
+
+*** Settings ***
+
+Documentation	Issue Test scenario. CRUD Operation: Create, Read, Update, Delete
+
+Pre Condition	Logged User and a project must be created by the user before 
+Post Condition	Logged Out User and there have been issues creating the project
+Tags 	Issue, TS-1-Issue
+
+#******************* Common Variables ********************
+
+
+*** Variables ***
+
+# NOTE: Please Remove your login credential before uploading Assignments
+
+Project_Name = Fundamentals Of Software Testing Project
+Username = Asier
+IssuesUrl =	https://gitlab.com/Username/Project_Name/-/issues
+Issue_Name = Issue1
+New_Issue_Name = Issue2
+Empty =			
+
+#******************** Test Cases *************************
+
+*** Test Case ***
+
+# Positive Test
+
+	Create Issue
+		Navigate To Issue Page IssuesUrl
+		Click New Issue
+		Input Issue Name Issue_Name
+		Submit New Issue Form
+		Verify Page Should Contain Issue created just now by Username
+
+	Update Name Of Issue
+		Navigate To Issue Page IssuesUrl
+		Click Issue Issue_Name
+		Click Edit
+		Input New Issue Name New_Issue_Name
+		Submit Edit Issue Form
+		Verify Page Should Contain Username changed title from Issue_Name to New_Issue_Name just now
+
+	Create Second Issue With Previous Updated Name
+		Navigate To Issue Page IssuesUrl
+		Click New Issue
+		Input Issue Name New_Issue_Name
+		Submit New Issue Form
+		Verify Page Should Contain Issue created just now by Username
+	
+	Delete First Issue
+		Navigate To Issue Page IssuesUrl
+		Click Issue New_Issue_Name
+		Click Settings 
+		Click Delete Issue
+		Submit Delete Issue Form
+		Verify Page Should Contain the issue was successfully deleted.

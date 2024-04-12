@@ -1,0 +1,89 @@
+
+#******************** Settings ************************
+
+*** Settings ***
+
+Documentation	Testing the register functionality. Register Test scenario with valid and invalid fields.
+
+Pre Condition	Open Browser
+Post Condition	Close All Browsers
+Tags	Register, TS-1-Register
+
+#******************* Common Variables ********************
+
+*** Variables ***
+
+# NOTE: Please Remove your login credential before uploading Assignments
+
+LoginUrl = https://gitlab.com/users/sign_up
+First_Name = Asier
+Last_Name = Moriones
+Username = asiermoriones
+Email = asier.moriones@laurea.fi
+Password = am04112001
+Invalid_Username = A
+Invalid_Password = AM2
+Invalid_Email = asier.moriones.laurea.fi
+Empty = 
+
+#******************** Test Cases *************************
+
+*** Test Case ***
+
+# Positive Tests
+
+Register User With Valid Username and Password
+    Navigate To Register Page  RegisterUrl
+    Input First Name  First_Name
+	Input Last Name  Last_Name
+	Input Username Username
+	Input Email Email
+    Input Password  Password
+    Submit Register Form
+	Complete Verification Captcha
+    Verify Page Should Contain Welcome page	 
+
+# Negative Tests
+
+Register User With Same Above Username
+	Navigate To Register Page  RegisterUrl
+	Input First Name  First_Name
+	Input Last Name  Last_Name
+	Input Username Username
+	Input Email Email
+	Input Password  Password
+	Submit Register Form
+	Complete Verification Captcha
+	Verify Page Should Contain Username is already taken
+
+Register User With Empty Password
+	Navigate To Register Page  RegisterUrl
+	Input First Name  First_Name
+	Input Last Name  Last_Name
+	Input Username Username
+	Input Email Email
+	Input Password Empty
+	Submit Register Form
+	Complete Verification Captcha
+	Verify Page Should Contain Minimum length is 8 characters.
+
+Register User With Invalid Email
+	Navigate To Register Page  RegisterUrl
+	Input First Name  First_Name
+	Input Last Name  Last_Name
+	Input Username Username
+	Input Email Invalid_Email
+	Input Password Password
+	Submit Register Form
+	Complete Verification Captcha
+	Verify Page Should Contain Please provide a valid email address.
+
+Register User Without Completing Verification Captcha
+	Navigate To Register Page  RegisterUrl
+	Input First Name  First_Name
+	Input Last Name  Last_Name
+	Input Username Username
+	Input Email Email
+	Input Password Password
+	Submit Register Form
+	Verify Page Should Contain Complete verification to sign up.
